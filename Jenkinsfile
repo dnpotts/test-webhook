@@ -25,14 +25,14 @@ pipeline {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
 					currentBuild.description = "${env.CURRENT_BUILDDESCRIPTION}"
 					
-					checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'GIT', submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'services_personalaccesstoken', url: 'https://github.com/dnpotts/test-webhook.git']]])
+					checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'GIT', submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/dnpotts/test-webhook.git']]])
 				}
 			}
 		}
 		
 		stage('Puppet Linting / Syntax Validation'){
 			steps {
-				powershell 'pdk validate --format=junit:report.xml --format=text:log.txt || echo'
+				powershell 'pdk validate --format=junit:report.xml --format=text:log.txt'
 				powershell 'ls'
 				archiveArtifacts artifacts: 'report.xml', fingerprint: true
 			}
