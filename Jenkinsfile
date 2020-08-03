@@ -15,7 +15,7 @@ pipeline {
 	options {
 		timestamps()
 		disableConcurrentBuilds()
-		ansiColor('xterm')
+		#ansiColor('xterm')
 		buildDiscarder(logRotator(numToKeepStr: '3'))
 	}
 	
