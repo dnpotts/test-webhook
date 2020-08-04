@@ -21,6 +21,7 @@ pipeline {
 	stages {
 		stage('Checkout Code'){
 			steps {
+				powershell "write-output $env:payload"
 				script {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
 					currentBuild.description = "${env.CURRENT_BUILDDESCRIPTION}"
