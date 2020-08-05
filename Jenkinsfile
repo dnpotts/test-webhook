@@ -22,9 +22,7 @@ pipeline {
 		stage('Checkout Code'){
 			steps {
 				echo "env:"
-				
-				//echo "gitlab repo: ${gitlabSourceRepoURL}"
-				echo "gitlab branch: ${gitlabBranch}"
+				echo bat(returnStdout: true, script: 'set')
 				
 				script {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
