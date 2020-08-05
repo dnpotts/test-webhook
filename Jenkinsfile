@@ -23,7 +23,7 @@ pipeline {
 			steps {
 				echo "env:"
 				
-				echo "gitlab repo: ${gitlabSourceRepoURL}"
+				//echo "gitlab repo: ${gitlabSourceRepoURL}"
 				echo "gitlab branch: ${gitlabBranch}"
 				
 				script {
