@@ -22,7 +22,7 @@ pipeline {
 		stage('Checkout Code'){
 			steps {
 				echo "env:"
-				sh "env"
+				
 				sh "${env}"
 				sh 'set'
 				script {
