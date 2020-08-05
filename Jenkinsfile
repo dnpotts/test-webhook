@@ -23,8 +23,9 @@ pipeline {
 			steps {
 				echo "env:"
 				
-				sh "${env}"
-				sh 'set'
+				echo "gitlab repo: ${gitlabSourceRepoURL}"
+				echo "gitlab branch: ${gitlabBranch}"
+				
 				script {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
 					currentBuild.description = "${env.CURRENT_BUILDDESCRIPTION}"
