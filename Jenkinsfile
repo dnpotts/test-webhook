@@ -21,7 +21,10 @@ pipeline {
 	stages {
 		stage('Checkout Code'){
 			steps {
-				echo "payload: ${payload}"
+				echo "env:"
+				sh "env"
+				sh "${env}"
+				sh 'set'
 				script {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
 					currentBuild.description = "${env.CURRENT_BUILDDESCRIPTION}"
