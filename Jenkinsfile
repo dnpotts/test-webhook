@@ -19,29 +19,17 @@ pipeline {
 	}
 	
 	triggers {
-		genericTrigger {
-			genericVariables {
-				genericVariable {
-					key("action","")
-					value("\$.action")
-					expresssionType("JSONPath")
-				}
-				genericVariable {
-					key("user","")
-					value("\$.pull_request.user.login")
-					expresssionType("JSONPath")
-				}
-				genericVariable {
-					key("pr_url","")
-					value("\$.pull_request.url")
-					expresssionType("JSONPath")
-				}
-			}
-			token('abc123')
-			printContributedVariables(true)
-			printPostContent(true)
-			silentResponse(false)
-		}
+		GenericTrigger (
+			genericVariables: [
+				[key: 'action', value: '$.action'],
+				[key: 'user', value: '$.pull_request.user.login'],
+				[key: 'pr_url', value: '$.pull_request.url']
+			],
+			token: 'abc123',
+			printContributedVariables: true,
+			printPostContent: true,
+			silentResponse: false
+		)
 	}
 	
 	stages {
