@@ -21,9 +21,9 @@ pipeline {
 	triggers {
 		GenericTrigger (
 			genericVariables: [
-				[key: 'action', value: '$.action'],
-				[key: 'user', value: '$.pull_request.user.login'],
-				[key: 'pr_url', value: '$.pull_request.url']
+				[key: 'state', value: '$.state'],
+				[key: 'user', value: '$.user.login'],
+				[key: 'pr_url', value: '$.url']
 			],
 			token: 'abc123',
 			printContributedVariables: true,
@@ -35,7 +35,7 @@ pipeline {
 	stages {
 		stage('Checkout Code'){
 			steps {
-				echo "action: ${action}"
+				echo "state: ${state}"
 				echo "user: ${user}"
 				echo "pr_url: ${pr_url}"
 				
