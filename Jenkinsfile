@@ -18,6 +18,10 @@ pipeline {
 		buildDiscarder(logRotator(numToKeepStr: '3'))
 	}
 	
+	triggers {
+		githubPush()
+	}
+	
 	stages {
 		stage('Checkout Code'){
 			steps {
