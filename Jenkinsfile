@@ -25,6 +25,8 @@ pipeline {
 	stages {
 		stage('Checkout Code'){
 			steps {
+				echo "ref: ${ref}"
+				
 				echo "env:"
 				echo bat(returnStdout: true, script: 'set')
 				
