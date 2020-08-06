@@ -19,13 +19,37 @@ pipeline {
 	}
 	
 	triggers {
-		githubPush()
+		genericTrigger {
+			genericVariables {
+				genericVariable {
+					key("action","")
+					value("\$.action")
+					expresssionType("JSONPath")
+				}
+				genericVariable {
+					key("user","")
+					value("\$.pull_request.user.login")
+					expresssionType("JSONPath")
+				}
+				genericVariable {
+					key("pr_url","")
+					value("\$.pull_request.url")
+					expresssionType("JSONPath")
+				}
+			}
+			token('abc123')
+			printContributedVariables(true)
+			printPostContent(true)
+			silentResponse(false)
+		}
 	}
 	
 	stages {
 		stage('Checkout Code'){
 			steps {
-				echo "ref: ${ref}"
+				echo "action: ${action}"
+				echo "user: ${user}"
+				echo "pr_url: ${pr_url}"
 				
 				echo "env:"
 				echo bat(returnStdout: true, script: 'set')
