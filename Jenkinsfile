@@ -73,7 +73,9 @@ pipeline {
 	
 	stages {
 		stage('parse action'){
-			skipBuild = false
+			script {
+				skipBuild = false
+			}
 		}
 	
 		stage('Checkout Code'){
