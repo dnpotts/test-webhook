@@ -78,7 +78,7 @@ pipeline {
 					// only run pipeline if action is "opened" or "edited"
 					switch("${action}"){
 						case "opened":
-						case "edited:
+						case "edited":
 							skipBuild = true
 							break
 						default:
