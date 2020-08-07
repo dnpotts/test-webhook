@@ -21,9 +21,11 @@ pipeline {
 	triggers {
 		GenericTrigger (
 			genericVariables: [
-				[key: 'state', value: '$.state'],
-				[key: 'user', value: '$.user.login'],
-				[key: 'pr_url', value: '$.url']
+				[key: 'action', value: '$.action'],
+				[key: 'user', value: '$.pull_request.user.login'],
+				[key: 'pr_url', value: '$.pull_request.url'],
+				[key: 'pr_src_sha', value: '$.pull_request.head.sha'],
+				[key: 'pr_src_ref', value: '$.pull_request.head.ref'],
 			],
 			token: 'abc123',
 			printContributedVariables: true,
@@ -38,6 +40,8 @@ pipeline {
 				echo "state: ${state}"
 				echo "user: ${user}"
 				echo "pr_url: ${pr_url}"
+				echo "pr_src_sha: ${pr_src_sha}"
+				echo "pr_src_ref: ${pr_src_ref}"
 				
 				echo "env:"
 				echo bat(returnStdout: true, script: 'set')
