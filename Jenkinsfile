@@ -73,7 +73,7 @@ pipeline {
 	
 	stages {
 		stage('parse action'){
-			step {
+			steps {
 				script {
 					skipBuild = false //TODO: read value from PR
 				}
