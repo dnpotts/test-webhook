@@ -50,7 +50,7 @@ pipeline {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
 					currentBuild.description = "${env.CURRENT_BUILDDESCRIPTION}"
 					
-					checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'GIT', submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/dnpotts/test-webhook.git']]])
+					checkout([$class: 'GitSCM', branches: [[name: "${pr_src_sha}"]], doGenerateSubmoduleConfigurations: false, extensions: [], gitTool: 'GIT', submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/dnpotts/test-webhook.git']]])
 				}
 			}
 		}
