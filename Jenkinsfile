@@ -73,8 +73,10 @@ pipeline {
 	
 	stages {
 		stage('parse action'){
-			script {
-				skipBuild = false
+			step {
+				script {
+					skipBuild = false //TODO: read value from PR
+				}
 			}
 		}
 	
@@ -133,7 +135,7 @@ pipeline {
 		
 		//}
 		always {
-			updateGithubCommitStatus build: currentBuild, repoUrl: "${repoUrl}", commitSha: "${pr_src_sha}", skipBuild: ${skipBuild}
+			updateGithubCommitStatus build: currentBuild, repoUrl: "${repoUrl}", commitSha: "${pr_src_sha}", skipBuild: "${skipBuild}"
 		}
 		
 	}
