@@ -37,7 +37,7 @@ pipeline {
 	stages {
 		stage('Checkout Code'){
 			steps {
-				echo "state: ${state}"
+				echo "action: ${action}"
 				echo "user: ${user}"
 				echo "pr_url: ${pr_url}"
 				echo "pr_src_sha: ${pr_src_sha}"
