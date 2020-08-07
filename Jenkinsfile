@@ -75,8 +75,18 @@ pipeline {
 		stage('parse action'){
 			steps {
 				script {
-					skipBuild = false //TODO: read value from PR
+					// only run pipeline if action is "opened" or "edited"
+					switch("${action}"){
+						case "opened":
+						case "edited:
+							skipBuild = true
+							break
+						default:
+							skipBuild = false 
+							break;
+					}
 				}
+				echo "skipBuild: ${skipBuild}"
 			}
 		}
 	
@@ -135,7 +145,7 @@ pipeline {
 		
 		//}
 		always {
-			updateGithubCommitStatus build: currentBuild, repoUrl: "${repoUrl}", commitSha: "${pr_src_sha}", skipBuild: "${skipBuild}"
+			updateGithubCommitStatus build: currentBuild, repoUrl: "${repo_url}", commitSha: "${pr_src_sha}", skipBuild: "${skipBuild}"
 		}
 		
 	}
