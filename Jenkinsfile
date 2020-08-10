@@ -47,7 +47,7 @@ pipeline {
 	options {
 		timestamps()
 		disableConcurrentBuilds()
-		buildDiscarder(logRotator(numToKeepStr: '3'))
+		buildDiscarder(logRotator(numToKeepStr: '100'))
 	}
 	
 	triggers {
@@ -60,7 +60,7 @@ pipeline {
 				[key: 'pr_src_ref', value: '$.pull_request.head.ref'],
 				[key: 'repo_owner', value: '$.pull_request.head.repo.owner.login'],
 				[key: 'repo_name', value: '$.pull_request.head.repo.name'],
-				[key: 'repo_url', value: '$.pull_request.head.repo.url']
+				[key: 'repo_url', value: '$.pull_request.head.repo.html_url']
 			],
 			token: 'abc123',
 			printContributedVariables: true,
@@ -78,8 +78,8 @@ pipeline {
 				echo "pr_src_sha: ${pr_src_sha}"
 				echo "pr_src_ref: ${pr_src_ref}"
 				echo "repo_name: ${repo_name}"
-				echo "repo_name: ${repo_url}"
-				echo "repo_name: ${repo_owner}"
+				echo "repo_url: ${repo_url}"
+				echo "repo_owner: ${repo_owner}"
 				
 				echo "env:"
 				echo bat(returnStdout: true, script: 'set')
