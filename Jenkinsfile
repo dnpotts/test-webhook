@@ -139,7 +139,7 @@ pipeline {
 		
 		always {
 			script {
-				if(${skipBuild} == false){
+				if(skipBuild == false){
 					echo "updating github build status"
 					step([
 						$class: 'GitHubCommitStatusSetter',
