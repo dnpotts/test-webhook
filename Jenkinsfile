@@ -89,6 +89,7 @@ pipeline {
 					switch("${action}"){
 						case "opened":
 						case "edited":
+						case "reopened":
 							skipBuild = false
 							break
 						default:
