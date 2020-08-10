@@ -77,10 +77,10 @@ pipeline {
 					switch("${action}"){
 						case "opened":
 						case "edited":
-							skipBuild = true
+							skipBuild = false
 							break
 						default:
-							skipBuild = false 
+							skipBuild = true 
 							break;
 					}
 				}
