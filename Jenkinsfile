@@ -1,8 +1,7 @@
 def github_credentials = "GITHUB_TOKEN"
 def skipBuild = true
 
-def updateGithubCommitStatus(build, repoUrl, commitSha, skipBuild) {
-	if (skipBuild == false){
+void updateGithubCommitStatus(build, repoUrl, commitSha, skipBuild) {
 	  step([
 		$class: 'GitHubCommitStatusSetter',
 		reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
@@ -17,7 +16,6 @@ def updateGithubCommitStatus(build, repoUrl, commitSha, skipBuild) {
 		  ]
 		]
 	  ])
-  }
 }
 
 pipeline {
@@ -145,7 +143,24 @@ pipeline {
 		
 		//}
 		always {
-			updateGithubCommitStatus build: currentBuild, repoUrl: "${repo_url}", commitSha: "${pr_src_sha}", skipBuild: "${skipBuild}"
+			//script {
+			//	updateGithubCommitStatus(currentBuild, "${repo_url}","${pr_src_sha}","${skipBuild}")
+			//}
+			//updateGithubCommitStatus build: currentBuild, repoUrl: "${repo_url}", commitSha: "${pr_src_sha}", skipBuild: "${skipBuild}"
+			step([
+				$class: 'GitHubCommitStatusSetter',
+				reposSource: [$class: "ManuallyEnteredRepositorySource", url: "${repo_url}"],
+				commitShaSource: [$class: "ManuallyEnteredShaSource", sha: "${pr_src_sha}"],
+				errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+				statusResultSource: [
+				  $class: 'ConditionalStatusResultSource',
+				  results: [
+					[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: currentBuild.description],
+					[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: currentBuild.description],
+					[$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+				  ]
+				]
+			  ])
 		}
 		
 	}
