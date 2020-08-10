@@ -139,20 +139,23 @@ pipeline {
 		
 		always {
 			script {
-				step([
-					$class: 'GitHubCommitStatusSetter',
-					reposSource: [$class: "ManuallyEnteredRepositorySource", url: "${repo_url}"],
-					commitShaSource: [$class: "ManuallyEnteredShaSource", sha: "${pr_src_sha}"],
-					errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
-					statusResultSource: [
-					  $class: 'ConditionalStatusResultSource',
-					  results: [
-						[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: currentBuild.description],
-						[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: currentBuild.description],
-						[$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
-					  ]
-					]
-				  ])
+				if($skipBuild == false){
+					echo "updating github build status"
+					step([
+						$class: 'GitHubCommitStatusSetter',
+						reposSource: [$class: "ManuallyEnteredRepositorySource", url: "${repo_url}"],
+						commitShaSource: [$class: "ManuallyEnteredShaSource", sha: "${pr_src_sha}"],
+						errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+						statusResultSource: [
+						  $class: 'ConditionalStatusResultSource',
+						  results: [
+							[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: currentBuild.description],
+							[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: currentBuild.description],
+							[$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+						  ]
+						]
+					  ])
+				}
 			  }
 		}
 		
