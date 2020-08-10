@@ -156,6 +156,8 @@ pipeline {
 						]
 					  ])
 				}
+			  } else {
+				echo "skipping github status update"
 			  }
 		}
 		
