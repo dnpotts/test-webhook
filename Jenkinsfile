@@ -72,6 +72,18 @@ pipeline {
 	stages {
 		stage('parse action'){
 			steps {
+				echo "action: ${action}"
+				echo "user: ${user}"
+				echo "pr_url: ${pr_url}"
+				echo "pr_src_sha: ${pr_src_sha}"
+				echo "pr_src_ref: ${pr_src_ref}"
+				echo "repo_name: ${repo_name}"
+				echo "repo_name: ${repo_url}"
+				echo "repo_name: ${repo_owner}"
+				
+				echo "env:"
+				echo bat(returnStdout: true, script: 'set')
+				
 				script {
 					// only run pipeline if action is "opened" or "edited"
 					switch("${action}"){
@@ -96,18 +108,7 @@ pipeline {
 			}
 		
 			steps {
-				echo "action: ${action}"
-				echo "user: ${user}"
-				echo "pr_url: ${pr_url}"
-				echo "pr_src_sha: ${pr_src_sha}"
-				echo "pr_src_ref: ${pr_src_ref}"
-				echo "repo_name: ${repo_name}"
-				echo "repo_name: ${repo_url}"
-				echo "repo_name: ${repo_owner}"
-				
-				echo "env:"
-				echo bat(returnStdout: true, script: 'set')
-				
+								
 				script {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
 					currentBuild.description = "${env.CURRENT_BUILDDESCRIPTION}"
