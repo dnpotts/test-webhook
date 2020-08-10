@@ -136,33 +136,24 @@ pipeline {
 	}
 	
 	post {
-		//success {
-			
 		
-			//githubNotify status: "SUCCESS", description: "Puppet //pull request syntax validation was successful", //credentialsId: "${GITHUB_TOKEN}", account: //"${repo_owner}", repo: "${repo_name}
-		//}
-		//unsuccessful {
-		
-		//}
 		always {
-			//script {
-			//	updateGithubCommitStatus(currentBuild, "${repo_url}","${pr_src_sha}","${skipBuild}")
-			//}
-			//updateGithubCommitStatus build: currentBuild, repoUrl: "${repo_url}", commitSha: "${pr_src_sha}", skipBuild: "${skipBuild}"
-			step([
-				$class: 'GitHubCommitStatusSetter',
-				reposSource: [$class: "ManuallyEnteredRepositorySource", url: "${repo_url}"],
-				commitShaSource: [$class: "ManuallyEnteredShaSource", sha: "${pr_src_sha}"],
-				errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
-				statusResultSource: [
-				  $class: 'ConditionalStatusResultSource',
-				  results: [
-					[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: currentBuild.description],
-					[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: currentBuild.description],
-					[$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
-				  ]
-				]
-			  ])
+			script {
+				step([
+					$class: 'GitHubCommitStatusSetter',
+					reposSource: [$class: "ManuallyEnteredRepositorySource", url: "${repo_url}"],
+					commitShaSource: [$class: "ManuallyEnteredShaSource", sha: "${pr_src_sha}"],
+					errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+					statusResultSource: [
+					  $class: 'ConditionalStatusResultSource',
+					  results: [
+						[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: currentBuild.description],
+						[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: currentBuild.description],
+						[$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+					  ]
+					]
+				  ])
+			  }
 		}
 		
 	}
