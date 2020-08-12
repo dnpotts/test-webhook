@@ -116,7 +116,19 @@ pipeline {
 			}
 		
 			steps {
-								
+				step([
+						$class: 'GitHubCommitStatusSetter',
+						reposSource: [$class: "ManuallyEnteredRepositorySource", url: "${repo_url}"],
+						commitShaSource: [$class: "ManuallyEnteredShaSource", sha: "${pr_src_sha}"],
+						errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+						statusResultSource: [
+						  $class: 'ConditionalStatusResultSource',
+						  results: [
+							[$class: 'AnyBuildResult', state: 'PENDING', message: 'Validation in progress']
+						  ]
+						]
+					  ])
+					  
 				script {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
 					currentBuild.description = "${env.CURRENT_BUILDDESCRIPTION}"
