@@ -70,7 +70,7 @@ pipeline {
 			printContributedVariables: true,
 			printPostContent: true,
 			silentResponse: false,
-			causeString: '$user submitted pull request from $pr_src_ref to $pr_base_ref'
+			causeString: '$user submitted pull request from $pr_src_ref (sha $pr_src_sha) to $pr_base_ref (sha $pr_base_sha)'
 		)
 	}
 	
@@ -156,14 +156,14 @@ pipeline {
 						statusResultSource: [
 						  $class: 'ConditionalStatusResultSource',
 						  results: [
-							[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: currentBuild.description],
-							[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: currentBuild.description],
+							[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: "${currentBuild.description} passed validation"],
+							[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: "${currentBuild.description} failed validation.  Branch ${pr_src_ref}, sha ${pr_src_sha} has failed checks, cannot merge pull request to ${pr_base_ref}.  See ${JOB_URL}${BUILD_NUMBER}/console for details."],
 							[$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
 						  ]
 						]
 					  ])
 					  
-					 // githubPRComment comment: //githubPRMessage("test comment")
+					 
 				} else {
 					echo "skipping github status update"
 				}
