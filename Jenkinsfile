@@ -157,7 +157,7 @@ pipeline {
 						  $class: 'ConditionalStatusResultSource',
 						  results: [
 							[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: "${currentBuild.description} passed validation"],
-							[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: "${currentBuild.description} failed validation.  Branch ${pr_src_ref}, sha ${pr_src_sha} has failed checks, cannot merge pull request to ${pr_base_ref}.  See ${JOB_URL}${BUILD_NUMBER}/console for details."],
+							[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: "{$pr_src_ref} (${pr_src_sha}) failed validation, cannot merge to ${pr_base_ref}. Click details for more info."],
 							[$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
 						  ]
 						]
