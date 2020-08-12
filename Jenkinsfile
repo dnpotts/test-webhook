@@ -30,6 +30,8 @@ pipeline {
 		string(name: 'action', defaultValue: '', description: '')
 		string(name: 'user', defaultValue: '', description: '')
 		string(name: 'pr_url', defaultValue: '', description: 'pull request URL')
+		string(name: 'pr_base_sha', defaultValue: '', description: 'the commitId (sha) of the pull request commit to merge to')
+		string(name: 'pr_base_ref', defaultValue: '', description: 'the branch of the pull request to merge to')
 		string(name: 'pr_src_sha', defaultValue: '', description: 'the commitId (sha) of the pull request commit to validate')
 		string(name: 'pr_src_ref', defaultValue: '', description: 'the source branch of the pull request')
 		string(name: 'repo_owner', defaultValue: '', description: '')
@@ -58,6 +60,8 @@ pipeline {
 				[key: 'pr_url', value: '$.pull_request.url'],
 				[key: 'pr_src_sha', value: '$.pull_request.head.sha'],
 				[key: 'pr_src_ref', value: '$.pull_request.head.ref'],
+				[key: 'pr_base_sha', value: '$.pull_request.base.sha'],
+				[key: 'pr_base_ref', value: '$.pull_request.base.ref'],
 				[key: 'repo_owner', value: '$.pull_request.head.repo.owner.login'],
 				[key: 'repo_name', value: '$.pull_request.head.repo.name'],
 				[key: 'repo_url', value: '$.pull_request.head.repo.html_url']
@@ -65,7 +69,8 @@ pipeline {
 			token: 'abc123',
 			printContributedVariables: true,
 			printPostContent: true,
-			silentResponse: false
+			silentResponse: false,
+			causeString: '$user submitted pull request from $pr_src_ref to $pr_base_ref'
 		)
 	}
 	
@@ -77,6 +82,8 @@ pipeline {
 				echo "pr_url: ${pr_url}"
 				echo "pr_src_sha: ${pr_src_sha}"
 				echo "pr_src_ref: ${pr_src_ref}"
+				echo "pr_base_sha: ${pr_base_sha}"
+				echo "pr_base_ref: ${pr_base_ref}"
 				echo "repo_name: ${repo_name}"
 				echo "repo_url: ${repo_url}"
 				echo "repo_owner: ${repo_owner}"
@@ -155,6 +162,8 @@ pipeline {
 						  ]
 						]
 					  ])
+					  
+					 // githubPRComment comment: //githubPRMessage("test comment")
 				} else {
 					echo "skipping github status update"
 				}
