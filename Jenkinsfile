@@ -51,9 +51,8 @@ pipeline {
 		disableConcurrentBuilds()
 		buildDiscarder(logRotator(numToKeepStr: '100'))
 	}
-	
-	triggers {
 	/*
+	triggers {
 		GenericTrigger (
 			genericVariables: [
 				[key: 'action', value: '$.action'],
@@ -73,8 +72,9 @@ pipeline {
 			silentResponse: false,
 			causeString: '$user submitted pull request from $pr_src_ref (sha $pr_src_sha) to $pr_base_ref (sha $pr_base_sha)'
 		)
-		*/
+		
 	}
+	*/
 	
 	stages {
 		stage('parse action'){
