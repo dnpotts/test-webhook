@@ -25,7 +25,7 @@ pipeline {
 			label 'master'
 		}
 	}
-	
+	/*
 	parameters {
 		string(name: 'action', defaultValue: '', description: '')
 		string(name: 'user', defaultValue: '', description: '')
@@ -38,7 +38,7 @@ pipeline {
 		string(name: 'repo_name', defaultValue: '', description: '')
 		string(name: 'repo_url', defaultValue: '', description: '')
 	}
-	
+	*/
 	environment {
 		CURRENTBUILD_DISPLAYNAME= "test-webhoook build #$BUILD_NUMBER"
 		CURRENT_BUILDDESCRIPTION = "test-webhook build #$BUILD_NUMBER"
@@ -49,7 +49,7 @@ pipeline {
 	options {
 		timestamps()
 		disableConcurrentBuilds()
-		buildDiscarder(logRotator(numToKeepStr: '100'))
+		buildDiscarder(logRotator(numToKeepStr: '1000'))
 	}
 	/*
 	triggers {
