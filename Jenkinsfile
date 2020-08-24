@@ -1,5 +1,5 @@
 def github_credentials = "GITHUB_TOKEN"
-def skipBuild = true
+def skipBuild = false
 
 void updateGithubCommitStatus(build, repoUrl, commitSha, skipBuild) {
 	  step([
@@ -77,6 +77,7 @@ pipeline {
 	*/
 	
 	stages {
+	/*
 		stage('parse action'){
 			steps {
 				echo "action: ${action}"
@@ -108,15 +109,16 @@ pipeline {
 				}
 				echo "skipBuild: ${skipBuild}"
 			}
-		}
+		}*/
 	
 		stage('Checkout Code'){
+		/*
 			when {
 				expression {
 					!skipBuild
 				}
 			}
-		
+		*/
 			steps {
 				step([
 						$class: 'GitHubCommitStatusSetter',
