@@ -1,5 +1,5 @@
 def github_credentials = "GITHUB_TOKEN"
-def skipBuild = false
+def skipBuild = true
 
 void updateGithubCommitStatus(build, repoUrl, commitSha, skipBuild) {
 	  step([
@@ -77,9 +77,10 @@ pipeline {
 	*/
 	
 	stages {
-	/*
+	
 		stage('parse action'){
 			steps {
+			/*
 				echo "action: ${action}"
 				echo "user: ${user}"
 				echo "pr_url: ${pr_url}"
@@ -90,10 +91,10 @@ pipeline {
 				echo "repo_name: ${repo_name}"
 				echo "repo_url: ${repo_url}"
 				echo "repo_owner: ${repo_owner}"
-				
+				*/
 				echo "env:"
 				echo bat(returnStdout: true, script: 'set')
-				
+				/*
 				script {
 					// only run pipeline if action is "opened" or "edited"
 					switch("${action}"){
@@ -106,19 +107,19 @@ pipeline {
 							skipBuild = true 
 							break;
 					}
-				}
+				}*/
 				echo "skipBuild: ${skipBuild}"
 			}
-		}*/
+		}
 	
 		stage('Checkout Code'){
-		/*
+		
 			when {
 				expression {
 					!skipBuild
 				}
 			}
-		*/
+		
 			steps {
 				step([
 						$class: 'GitHubCommitStatusSetter',
