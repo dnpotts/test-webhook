@@ -22,9 +22,8 @@ pipeline {
 	}
 	
 	triggers {
-		githubPush()
-		githubPullRequests events: [commentPattern('hello')], preStatus: true, triggerMode: "HEAVY_HOOKS"
-	}
+        githubPullRequests events: [commentPattern('run job please')], spec: '', triggerMode: 'HEAVY_HOOKS'
+    }
 		//, GitHubPROpenEvent, GitHubPRCommitEvent
 		//		"Open", "commitChanged"
 	
