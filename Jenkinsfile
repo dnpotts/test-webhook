@@ -23,13 +23,7 @@ pipeline {
 	
 	triggers {
 		githubPush()
-		githubPullRequests (
-			preStatus: true,
-			triggerMode: "HEAVY_HOOKS",
-			events: [
-				[$class: 'GitHubPROpenEvent']
-			]
-		)
+		githubPullRequests events: [Open()], preStatus: true, triggerMode: "HEAVY_HOOKS"
 	}
 		//, GitHubPROpenEvent, GitHubPRCommitEvent
 		//		"Open", "commitChanged"
