@@ -27,12 +27,12 @@ pipeline {
 			preStatus: true,
 			triggerMode: "HEAVY_HOOKS",
 			events: [
-				[commitChanged: '']
-				//, GitHubPROpenEvent, GitHubPRCommitEvent
-		//		"Open", "commitChanged"
+				[$class: 'GitHubPROpenEvent']
 			]
 		)
 	}
+		//, GitHubPROpenEvent, GitHubPRCommitEvent
+		//		"Open", "commitChanged"
 	
 	stages {
 	
