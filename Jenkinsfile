@@ -1,22 +1,4 @@
 def github_credentials = "GITHUB_TOKEN"
-def skipBuild = true
-
-void updateGithubCommitStatus(build, repoUrl, commitSha, skipBuild) {
-	  step([
-		$class: 'GitHubCommitStatusSetter',
-		reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
-		commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
-		errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
-		statusResultSource: [
-		  $class: 'ConditionalStatusResultSource',
-		  results: [
-			[$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: build.description],
-			[$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: build.description],
-			[$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
-		  ]
-		]
-	  ])
-}
 
 pipeline {
 
@@ -39,6 +21,18 @@ pipeline {
 		buildDiscarder(logRotator(numToKeepStr: '1000'))
 	}
 	
+	triggers {
+		githubPush()
+		GitHubPRTrigger (
+			preStatus: true,
+			triggerMode: HEAVY_HOOKS,
+			events: [
+				GitHubPROpenEvent(),
+				GitHubPRCommitEvent()
+			]
+		)
+	}
+	
 	stages {
 	
 		stage('Checkout Code'){
@@ -46,20 +40,7 @@ pipeline {
 			steps {
 				echo "env:"
 				echo bat(returnStdout: true, script: 'set')
-				/*
-				step([
-						$class: 'GitHubCommitStatusSetter',
-						reposSource: [$class: "ManuallyEnteredRepositorySource", url: "${repo_url}"],
-						commitShaSource: [$class: "ManuallyEnteredShaSource", sha: "${pr_src_sha}"],
-						errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
-						statusResultSource: [
-						  $class: 'ConditionalStatusResultSource',
-						  results: [
-							[$class: 'AnyBuildResult', state: 'PENDING', message: 'Validation in progress']
-						  ]
-						]
-					  ])
-					  */
+			
 				script {
 					currentBuild.displayName = "${env.CURRENTBUILD_DISPLAYNAME}"
 					currentBuild.description = "${env.CURRENT_BUILDDESCRIPTION}"
