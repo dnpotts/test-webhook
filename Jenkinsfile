@@ -25,7 +25,7 @@ pipeline {
 		githubPush()
 		githubPullRequests (
 			preStatus: true,
-			triggerMode: HEAVY_HOOKS,
+			triggerMode: "Hooks with Persisted Data",
 			events: [
 				GitHubPROpenEvent(),
 				GitHubPRCommitEvent()
