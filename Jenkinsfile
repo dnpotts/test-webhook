@@ -23,7 +23,7 @@ pipeline {
 	
 	triggers {
 		githubPush()
-		GitHubPRTrigger (
+		githubPullRequests (
 			preStatus: true,
 			triggerMode: HEAVY_HOOKS,
 			events: [
