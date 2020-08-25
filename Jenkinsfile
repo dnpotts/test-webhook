@@ -27,7 +27,8 @@ pipeline {
 			preStatus: true,
 			triggerMode: "HEAVY_HOOKS",
 			events: [
-				"Open", "commitChanged"
+				"GitHubPRCommitEvent", "GitHubPROpenEvent"
+		//		"Open", "commitChanged"
 			]
 		)
 	}
