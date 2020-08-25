@@ -27,7 +27,7 @@ pipeline {
 			preStatus: true,
 			triggerMode: "HEAVY_HOOKS",
 			events: [
-				open, commitChanged
+				Open, commitChanged
 			]
 		)
 	}
